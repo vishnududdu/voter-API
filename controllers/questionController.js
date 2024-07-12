@@ -21,7 +21,9 @@ export const addOption = async (req, res) => {
         if (!question) {
             return res.status(404).json({ error: 'Question not found' });
         }
-        const id=question.options.length+1;
+        const count=await Option.countDocuments();
+        const id=count+1;
+        console.log(id);
         const option = new Option({
             _id:id,
             text:text,
