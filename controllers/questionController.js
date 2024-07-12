@@ -4,7 +4,8 @@ import Option from '../models/Option.js';
 export const createQuestion = async (req, res) => {
     try {
         const { title } = req.body;
-        const question = new Question({ title});
+        const count=await Question.countDocuments();
+        const question = new Question({_id:count+1, title});
         await question.save();
         res.status(201).json(question);
     } catch (error) {
@@ -20,12 +21,13 @@ export const addOption = async (req, res) => {
         if (!question) {
             return res.status(404).json({ error: 'Question not found' });
         }
+        const id=question.options.length+1;
         const option = new Option({
+            _id:id,
             text:text,
-            link_to_vote: `/options/${question._id}/add_vote`,
+            link_to_vote: `/options/${id}/add_vote`,
             question: question._id
         });
-        // console.log(option);
         await option.save();
         question.options.push(option._id);
         await question.save();
@@ -55,6 +57,8 @@ export const deleteQuestion = async (req, res) => {
 
 export const viewQuestion = async (req, res) => {
     try {
+        const count=await Question.countDocuments();
+        console.log(count);
         const question = await Question.findById(req.params.id).populate('options');
         if (!question) {
             return res.status(404).json({ error: 'Question not found' });

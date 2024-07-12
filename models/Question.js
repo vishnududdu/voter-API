@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 
 const QuestionSchema = new mongoose.Schema({
-
+    _id: {
+        type: Number,
+        required: true,
+    },
     title: {
         type: String,
         required: true
     },
     options: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         ref: 'Option'
     }]
 });

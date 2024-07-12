@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const OptionSchema = new mongoose.Schema({
+    _id: {
+        type: Number,
+        required: true,
+    },
     text: {
         type: String,
         required: true
@@ -14,7 +18,7 @@ const OptionSchema = new mongoose.Schema({
         required: true
     },
     question: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Number,
         ref: 'Question'
     }
 });
